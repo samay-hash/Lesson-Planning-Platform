@@ -28,14 +28,7 @@ const About = () => {
           don't have to struggle with time-consuming tasks.
         </h1>
         <p className="text-left text-lg">
-          As a B.Ed. trainee and aspiring developer, I saw the challenges
-          teachers face in creating lesson plans. Traditional methods are often
-          tedious and time-consuming. <br />
-          LessonFlow changes that. Powered by the Gemini API, it generates
-          structured lesson plans in seconds, letting teachers focus more on
-          teaching. I am kidding made this for me so that i dont have to give
-          propmt to ai create everything, Thank You GEMINI API , i LOVE YOU
-          <br />– KOTY
+          As a B.Tech student and aspiring developer, I noticed how challenging and time-consuming it can be for teachers to create structured lesson plans. Traditional methods are often repetitive and slow. That’s why I built LessonFlow. Powered by the Gemini API, it helps generate clear and organized lesson plans in seconds — so teachers can focus more on teaching instead of paperwork. <br />
         </p>
       </div>
     </div>
