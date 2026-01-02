@@ -4,7 +4,8 @@
   "description": "backend for a lesson plan saas",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon index.js"
+    "dev": "nodemon index.js",
+    "start": "node index.js"
   },
   "author": "animesh kakoty",
   "license": "ISC",
