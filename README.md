@@ -1,6 +1,10 @@
 # 🎓📚
 
-Alongside my coding journey, I am also pursuing a BSc BEd degree. Part of my BEd program involves creating detailed lesson plans as class assignments, which need to follow specific formats like structured tables, mind maps, and extensive text content. This process is too boring specially the writing in word file part, also i dont have the ms word version so I streamline this task, I created LessonFlow—a tool that leverages the Gemini API to automate lesson plan creation with just a few inputs. With the help of the Officegen npm package, the generated content is converted into a `.docx` format that aligns with my course requirements.
+Along with my BTech studies, I have coursework that requires preparing detailed lesson plans in structured formats such as tables, mind maps, and descriptive teaching notes. Manually creating these lesson plans — especially typing everything into Word — was repetitive, time-consuming, and I also didn’t have MS Word installed.
+
+To streamline this process, I built Go Simon — a tool that uses the Gemini API to automatically generate complete lesson plans from just a few inputs. The generated content is then converted into a .docx file using the Officegen npm package, ensuring the final document follows the academic format and structure required in my assignments.
+
+Go Simon helps reduce manual effort, improves consistency, and makes lesson planning faster and more efficient.
 
 ## Tech Stack 🛠️
 
@@ -12,14 +16,11 @@ Alongside my coding journey, I am also pursuing a BSc BEd degree. Part of my BEd
 
 - **Built to help me and some of my classmates**:
 
-## Acknowledgements 🤝
-
-This project is based on knowledge acquired up to Week 12 in Harkirat Singh’s cohort.
 
 ## Future Improvements 🚀
 
 - **UI Enhancements**: I will improve the UI .
 - **Backend Optimization**: I will improve the backend also .
-- **Lesson Plan Customization**: The teacher specifix lesson plan structure will be added soon.
+- **Lesson Plan Customization**: The teacher specifix lesson plan structure and fee plan will added soon
 
 With each improvement, goSimongo will be more user-friendly, flexible, and efficient, aiming to further reduce the time and effort involved in creating lesson plans.
