@@ -7,7 +7,7 @@
     "dev": "nodemon index.js",
     "start": "node index.js"
   },
-  "author": "animesh kakoty",
+  "author": "samay samrat",
   "license": "ISC",
   "dependencies": {
     "@google/generative-ai": "^0.21.0",
