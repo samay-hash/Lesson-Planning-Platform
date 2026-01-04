@@ -67,13 +67,13 @@ const createPlan = async (req, res) => {
     
        const docFile = await createDocument({subject, topic, grade, duration, overviewText, curricularText, factualsText, conceptualText, proceduralText,essentialQuestionText, teachingPointText, sequentialActivityText, formativeAssesmentText, gptQuestionText, summarizationhomeText})
 
-    //    if (fs.existsSync(docFile)) {
-    //     console.log('File exists');
-    //     // Proceed to send the file
-    // } else {
-    //     console.log('File does not exist');
-    //     // Handle the missing file case
-    // }
+       if (fs.existsSync(docFile)) {
+        console.log('File exists');
+        // Proceed to send the file
+    } else {
+        console.log('File does not exist');
+        // Handle the missing file case
+    }
     await LessonPlanModel.create({
         subject : subject,
         topic : topic,
@@ -81,6 +81,7 @@ const createPlan = async (req, res) => {
         duration : duration,
         creatorId : username
     })
+    
 
         res.download(docFile, `${topic}.docx`, (err) => {
             if(err) {

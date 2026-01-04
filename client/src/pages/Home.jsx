@@ -51,7 +51,7 @@ const Home = () => {
         </div>
       </motion.div>
       <div className='mt-24 sm:px-36 px-10'>
-        <h1 className='sm:text-4xl text-[24px] mb-5'>Trusted by 5 teachers of my University </h1>
+        <h1 className='sm:text-4xl text-[24px] mb-5'>Trusted by My Audience </h1>
         <Testimonials/>
       </div>
     </div>
