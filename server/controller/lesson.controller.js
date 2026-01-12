@@ -61,8 +61,8 @@ const createPlan = async (req, res) => {
   // const combinedLessonPlanPrompt = `create a lesson plan on the subbject ${subject} with ${topic} of grade ${grade} of duration ${duration}`
   try {
     const openai = new OpenAI({
-      apiKey: process.env.GROQ_API_KEY,
-      baseURL: "https://api.groq.com/openai/v1",
+      apiKey: process.env.XAI_API_KEY,
+      baseURL: "https://api.x.ai/v1",
     });
 
     const [
@@ -79,47 +79,47 @@ const createPlan = async (req, res) => {
       summary,
     ] = await Promise.all([
       openai.chat.completions.create({
-        model: "llama3-8b-8192",
+        model: "grok-beta",
         messages: [{ role: "user", content: overviewPrompt }],
       }),
       openai.chat.completions.create({
-        model: "llama3-8b-8192",
+        model: "grok-beta",
         messages: [{ role: "user", content: curricularParaPrompt }],
       }),
       openai.chat.completions.create({
-        model: "llama3-8b-8192",
+        model: "grok-beta",
         messages: [{ role: "user", content: factualKnowledgePrompt }],
       }),
       openai.chat.completions.create({
-        model: "llama3-8b-8192",
+        model: "grok-beta",
         messages: [{ role: "user", content: conceptualPrompt }],
       }),
       openai.chat.completions.create({
-        model: "llama3-8b-8192",
+        model: "grok-beta",
         messages: [{ role: "user", content: proceduralPrompt }],
       }),
       openai.chat.completions.create({
-        model: "llama3-8b-8192",
+        model: "grok-beta",
         messages: [{ role: "user", content: essentialQuestionPrompt }],
       }),
       openai.chat.completions.create({
-        model: "llama3-8b-8192",
+        model: "grok-beta",
         messages: [{ role: "user", content: teachingPointPrompt }],
       }),
       openai.chat.completions.create({
-        model: "llama3-8b-8192",
+        model: "grok-beta",
         messages: [{ role: "user", content: sequentialActivityPrompt }],
       }),
       openai.chat.completions.create({
-        model: "llama3-8b-8192",
+        model: "grok-beta",
         messages: [{ role: "user", content: formativeAssessmentPrompt }],
       }),
       openai.chat.completions.create({
-        model: "llama3-8b-8192",
+        model: "grok-beta",
         messages: [{ role: "user", content: gptQuestionPrompt }],
       }),
       openai.chat.completions.create({
-        model: "llama3-8b-8192",
+        model: "grok-beta",
         messages: [{ role: "user", content: summarisationPrompt }],
       }),
     ]);

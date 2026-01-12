@@ -19,7 +19,8 @@ const corsOptions = {
     "http://127.0.0.1:5173",
     "http://localhost:5173",
     "http://localhost:5174",
-  ],
+    process.env.CLIENT_URL, // Deployed Frontend URL
+  ].filter(Boolean), // Filter out undefined values
   credentials: true,
   methods: ["GET", "PUT", "POST", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"],
