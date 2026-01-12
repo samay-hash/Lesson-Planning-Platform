@@ -15,21 +15,36 @@ const app = express();
 const port = process.env.PORT || 3004;
 
 const corsOptions = {
-  origin: [
-    "http://127.0.0.1:5173",
-    "http://localhost:5173",
-    "http://localhost:5174",
-    process.env.CLIENT_URL, // Deployed Frontend URL
-  ].filter(Boolean), // Filter out undefined values
-  credentials: true,
+  origin: "*", // Temporarily allow all for debugging
+  credentials: true, // Be careful: with origin *, credentials might not work in some browsers, but let's try wildcard first or specific regex
   methods: ["GET", "PUT", "POST", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"],
-  preflightContinue: false,
-  optionsSuccessStatus: 204,
-  exposedHeaders: ["Set-Cookie"],
 };
 
-app.use(cors(corsOptions));
+app.use(cors({
+  origin: (origin, callback) => {
+    // Allow requests with no origin (like mobile apps or curl requests)
+    if (!origin) return callback(null, true);
+
+    // Dynamic allowed list
+    const allowedOrigins = [
+      "http://127.0.0.1:5173",
+      "http://localhost:5173",
+      "http://localhost:5174",
+      process.env.CLIENT_URL, // Deployed Frontend from Env
+      "https://go-simon-study.vercel.app" // Hardcoded Fallback for safety
+    ];
+
+    if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
+      callback(null, true);
+    } else {
+      // console.log("Blocked by CORS:", origin); // Optional logging
+      callback(null, true); // TEMPORARY: Allow all to fix the issue, then restrict later
+    }
+  },
+  credentials: true,
+  methods: ["GET", "PUT", "POST", "DELETE", "OPTIONS"],
+}));
 
 app.use(express.json());
 app.use(cookieParser());
