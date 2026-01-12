@@ -4,6 +4,7 @@ const {
   signUp,
   signIn,
   viewPlans,
+  refreshToken,
   clearCookie,
 } = require("../controller/user.controller");
 
@@ -11,6 +12,7 @@ const userRouter = Router();
 
 userRouter.post("/signup", signUp);
 userRouter.post("/signin", signIn);
+userRouter.post("/refreshToken", refreshToken);
 userRouter.get("/viewPlan", auth, viewPlans);
 userRouter.get("/api/logOut", auth, clearCookie);
 

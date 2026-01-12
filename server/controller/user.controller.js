@@ -15,7 +15,7 @@ const signUp = async (req, res) => {
 
   const { email, username, password } = parsedObject.data;
 
-  const hasedPassword = await bcrypt.hash(password, 10);
+  const hashedPassword = await bcrypt.hash(password, 10);
 
   try {
     const findUser = await UserModel.findOne({ email });
@@ -24,7 +24,7 @@ const signUp = async (req, res) => {
     const user = await UserModel.create({
       email,
       username,
-      password: hasedPassword,
+      password: hashedPassword,
     });
 
     const accessToken = generateAccessToken(user._id);
@@ -120,6 +120,29 @@ const viewPlans = async (req, res) => {
   }
 };
 
+const refreshToken = async (req, res) => {
+  const refreshToken = req.cookies.refreshToken;
+  if (!refreshToken) return res.status(401).json({ msg: "No refresh token" });
+
+  try {
+    const decoded = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
+    const accessToken = generateAccessToken(decoded.userId);
+
+    const isProd = process.env.NODE_ENV === "production";
+    const options = {
+      httpOnly: true,
+      secure: isProd,
+      sameSite: isProd ? "None" : "Lax",
+      path: "/",
+    };
+
+    res.cookie("accessToken", accessToken, options);
+    res.status(200).json({ msg: "Token refreshed" });
+  } catch (error) {
+    res.status(403).json({ msg: "Invalid refresh token" });
+  }
+};
+
 const clearCookie = (req, res) => {
   const isProd = process.env.NODE_ENV === "production";
   const options = { path: "/", httpOnly: true, secure: isProd };
@@ -132,5 +155,6 @@ module.exports = {
   signUp,
   signIn,
   viewPlans,
+  refreshToken,
   clearCookie,
 };

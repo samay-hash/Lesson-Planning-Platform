@@ -1,41 +1,44 @@
-import React from 'react'
-import { inView, motion } from 'framer-motion';
+import React, { useEffect } from 'react'
+import { motion } from 'framer-motion';
 import logo from '../assets/logo.jpg'
 import Button from './Button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTwitter } from '@fortawesome/free-brands-svg-icons';
 import { useRecoilState } from 'recoil';
 import { userProfileState } from '../recoil/createUser.recoil';
-import { useEffect } from 'react';
-import UserProfile from '../pages/UserProfile';
 
 const Footer = () => {
   const [userProfile, setUserProfile] = useRecoilState(userProfileState)
 
   useEffect(() => {
-    
     const username = localStorage.getItem('username')
-
-    if(username) setUserProfile(true)
-  
-    
+    if (username) setUserProfile(true)
   }, [])
-  
+
   const footeAnimation = {
-    initial : {opacity : 0, x: -40},
-    inView : {opacity : 1 , x : 0 , transition : {duration : 0.9, ease : 'easeIn'}}
+    initial: { opacity: 0, x: -40 },
+    inView: { opacity: 1, x: 0, transition: { duration: 0.9, ease: 'easeIn' } }
   }
   return (
-    <motion.div initial='initial' whileInView='inView' variants={footeAnimation} className='relative flex flex-col items-center justify-center bg-gradient-to-b from-blue-300 to-[#ddeefa] sm:mx-28 mx-5 rounded-xl'>
-      <div className='absolute sm:-top-20 -top-12'><img src={logo} alt="" className='w-[100px] sm:w-[150px]' /></div>
-      <div className='text-center space-y-5 pt-10'>
-        <h1 className='sm:text-[36px] text-[20px]'>Boost Your Classroom Environment with AI powered Lesson Plans</h1>
-        {
-          !userProfile ? <Button prop={'Get Started'} link='/auth/signin' className='mt-10'/> : <Button prop={'Create Lesson Plan'} link='/dashboard' className='mt-10'/>
-        }
+    <motion.div initial='initial' whileInView='inView' variants={footeAnimation} className='relative flex flex-col items-center justify-center bg-white/5 backdrop-blur-md border border-white/10 sm:mx-20 mx-5 rounded-3xl p-10 mb-10 shadow-2xl'>
+      <div className='absolute -top-12'>
+        <img src={logo} alt="" className='w-24 h-24 rounded-full border-4 border-[#020617] shadow-xl' />
       </div>
-      <div className='mt-10 pb-5 text-center text-sm text-gray-600'>
-        © {new Date().getFullYear()} Created by Samay || All rights reserved. <a target='_blanck' href="https://x.com/ChemistGamer1"><FontAwesomeIcon icon={faTwitter} /></a>
+      <div className='text-center space-y-6 pt-12'>
+        <h1 className='sm:text-3xl text-xl font-bold text-slate-200 max-w-2xl leading-relaxed'>
+          Boost Your Classroom Environment with <span className="text-cyan-400">AI Powered</span> Lesson Plans
+        </h1>
+        <div className="flex justify-center">
+          {
+            !userProfile ? <Button prop={'Get Started Now'} link='/auth/signin' className='mt-5' /> : <Button prop={'Create Lesson Plan'} link='/dashboard' className='mt-5' />
+          }
+        </div>
+      </div>
+      <div className='mt-12 pt-6 border-t border-white/5 w-full text-center text-sm text-slate-500'>
+        © {new Date().getFullYear()} Created by Samay || All rights reserved.
+        <a target='_blank' rel="noreferrer" href="https://x.com/ChemistGamer1" className="ml-2 text-slate-400 hover:text-cyan-400 transition-colors">
+          <FontAwesomeIcon icon={faTwitter} />
+        </a>
       </div>
     </motion.div>
   )

@@ -1,12 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import Button from "../components/Button";
 import { Link, useNavigate } from "react-router-dom";
 import logo from "../assets/logo.jpg";
 import Input from "../components/Input";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEnvelope, faLock, faUser } from "@fortawesome/free-solid-svg-icons";
-import { inView } from "framer-motion";
 import {
   usersignupState,
   authMessageState,
@@ -15,7 +13,6 @@ import {
 } from "../recoil/createUser.recoil";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { createUser } from "../apiFrontend/authHandler";
-import { useEffect } from "react";
 import PasswordStrength from "../components/PasswordStrength";
 
 const AuthSignup = () => {
@@ -36,8 +33,6 @@ const AuthSignup = () => {
         setAuthMessage(true);
         return;
       }
-
-      console.log(userCreated.accessToken);
 
       localStorage.setItem("username", userCreated.username);
       setUserProfile(true);
@@ -72,65 +67,75 @@ const AuthSignup = () => {
     inView: { opacity: 1, y: 0, transition: { duration: 0.5 } },
   };
   return (
-    <>
+    <div className="relative min-h-screen flex items-center justify-center overflow-hidden">
       <motion.div
         initial="initial"
         whileInView="inView"
         variants={signUpanimation}
-        className="relative flex flex-col items-center justify-center h-screen"
+        className="relative z-10 w-full max-w-md p-8"
       >
-        <div className=" text-center bg-blue-200 sm:px-12 px-5 sm:py-2 rounded-xl  ">
-          <Link to="/">
-            <img src={logo} className="h-24 w-24 mx-auto" alt="" />
+        <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-8 shadow-2xl shadow-black/50">
+          <Link to="/" className="flex justify-center mb-6">
+            <img src={logo} className="h-20 w-20 rounded-full border-2 border-cyan-500/50 shadow-lg shadow-cyan-500/20" alt="" />
           </Link>
-          <h1 className="text-2xl">Create an Account </h1>
-          <form onSubmit={handleSubmit} className="space-y-4 mt-3">
+          <h1 className="text-3xl font-bold text-center text-slate-100 mb-2">Create Account</h1>
+          <p className="text-slate-400 text-center text-sm mb-8">Join the future of lesson planning</p>
+
+          <form onSubmit={handleSubmit} className="space-y-4">
             <Input
               type="email"
-              placeholder="email"
+              placeholder="Email Address"
               onChange={handleInputChange}
               name="email"
-              icon={<FontAwesomeIcon icon={faEnvelope} />}
+              icon={<FontAwesomeIcon icon={faEnvelope} className="text-cyan-400" />}
             />
             <Input
               type="text"
-              placeholder="username"
+              placeholder="Username"
               onChange={handleInputChange}
               name="username"
-              icon={<FontAwesomeIcon icon={faUser} />}
+              icon={<FontAwesomeIcon icon={faUser} className="text-cyan-400" />}
             />
             <Input
               type="password"
-              placeholder="password"
+              placeholder="Password"
               onChange={handleInputChange}
               name="password"
-              icon={<FontAwesomeIcon icon={faLock} />}
+              icon={<FontAwesomeIcon icon={faLock} className="text-cyan-400" />}
             />
-            {/* <Button prop={'sign up'} type='submit'/> */}
+
             <button
-              className="bg-gradient-to-r from-cyan-500 to-blue-700 text-white sm:p-3 text-xs p-2 rounded-xl shadow transition delay-200 hover:text-black shadow-cyan-500"
+              className="w-full bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-semibold py-3 px-4 rounded-xl shadow-lg shadow-cyan-500/30 hover:shadow-cyan-500/50 hover:scale-[1.02] transition-all duration-200 mt-4"
               type="submit"
             >
-              submit
+              Sign Up
             </button>
           </form>
-          {user.password && <PasswordStrength password={user.password} />}
-          <div className="">
-            <h1>
-              Already have an account ?{" "}
-              <Link to="/auth/signin" className="underline">
-                sign in{" "}
+
+          <div className="mt-4">
+            {user.password && <PasswordStrength password={user.password} />}
+          </div>
+
+          <div className="text-center mt-6">
+            <p className="text-slate-400 text-sm">
+              Already have an account?{" "}
+              <Link to="/auth/signin" className="text-cyan-400 hover:text-cyan-300 font-medium ml-1">
+                Sign In
               </Link>
-            </h1>
+            </p>
           </div>
         </div>
       </motion.div>
       {authMessage && (
-        <div className="absolute bg-blue-400 bottom-4 right-4 px-5 py-2 rounded-xl text-black">
-          <h1 className=" ">Invalid Credentials, try Again !</h1>
-        </div>
+        <motion.div
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="absolute bottom-10 bg-red-500/90 text-white px-6 py-3 rounded-xl shadow-lg backdrop-blur-sm"
+        >
+          Invalid Credentials or User exists!
+        </motion.div>
       )}
-    </>
+    </div>
   );
 };
 
