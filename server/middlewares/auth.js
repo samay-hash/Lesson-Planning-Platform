@@ -1,7 +1,16 @@
 const jwt = require("jsonwebtoken");
 
 const auth = (req, res, next) => {
-  const accessToken = req.cookies.accessToken;
+  let accessToken = req.cookies.accessToken;
+
+  // Fallback: Check Authorization header
+  if (!accessToken && req.headers.authorization) {
+    const authHeader = req.headers.authorization;
+    if (authHeader.startsWith("Bearer ")) {
+      accessToken = authHeader.substring(7, authHeader.length);
+    }
+  }
+
   if (!accessToken)
     return res.status(403).json({ msg: "no access token provided" });
 
