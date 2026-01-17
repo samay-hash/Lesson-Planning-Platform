@@ -4,10 +4,11 @@ export default {
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
+  darkMode: 'class',
   theme: {
     extend: {
-      fontFamily : {
-        fontOne : ['fontOne', 'sans-serif']
+      fontFamily: {
+        fontOne: ['fontOne', 'sans-serif']
       },
       colors: {
         customBlue: {

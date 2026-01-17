@@ -7,6 +7,7 @@ import { faBars, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { useRecoilState } from "recoil";
 import UserProfilebtn from "./UserProfilebtn";
 import { userProfileState } from "../recoil/createUser.recoil";
+import ThemeToggle from "./ThemeToggle";
 
 const navLinks = [
   { name: "Home", url: "/" },
@@ -70,33 +71,37 @@ const NavBar = () => {
                 key={nav.name}
                 className="transition-all duration-200 hover:text-cyan-400 hover:scale-105"
               >
-                <Link to={nav.url}>{nav.name}</Link>
+                <Link to={nav.url} className="text-slate-800 dark:text-slate-200">{nav.name}</Link>
               </li>
             ))}
           </ul>
-          {userProfile ? (
-            <UserProfilebtn />
-          ) : (
-            <Link to="/auth/signin">
-              <button className="transition-all duration-200 hover:bg-cyan-500/10 hover:text-cyan-400 hover:border-cyan-500 p-2 px-6 rounded-xl border border-slate-600 text-sm">
-                Sign In
-              </button>
-            </Link>
-          )}
+          <div className="flex items-center gap-4">
+            <ThemeToggle />
+            {userProfile ? (
+              <UserProfilebtn />
+            ) : (
+              <Link to="/auth/signin">
+                <button className="transition-all duration-200 hover:bg-cyan-500/10 hover:text-cyan-400 hover:border-cyan-500 p-2 px-6 rounded-xl border border-slate-600 text-sm text-slate-800 dark:text-slate-200">
+                  Sign In
+                </button>
+              </Link>
+            )}
+          </div>
         </>
       ) : (
         <div className="flex gap-5 items-center">
+          <ThemeToggle />
           {userProfile ? (
             <UserProfilebtn />
           ) : (
             <Link to="/auth/signin">
-              <button className="transition-all duration-200 hover:bg-cyan-500/10 hover:text-cyan-400 hover:border-cyan-500 p-2 px-4 rounded-xl border border-slate-600 text-sm">
+              <button className="transition-all duration-200 hover:bg-cyan-500/10 hover:text-cyan-400 hover:border-cyan-500 p-2 px-4 rounded-xl border border-slate-600 text-sm text-slate-800 dark:text-slate-200">
                 Sign In
               </button>
             </Link>
           )}
 
-          <button onClick={() => setToggleMenu(!toggleMenu)} className="text-slate-200 hover:text-cyan-400 transition-colors">
+          <button onClick={() => setToggleMenu(!toggleMenu)} className="text-slate-800 dark:text-slate-200 hover:text-cyan-400 transition-colors">
             <FontAwesomeIcon icon={faBars} size="lg" />
           </button>
         </div>

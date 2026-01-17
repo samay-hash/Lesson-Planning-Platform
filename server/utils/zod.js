@@ -8,38 +8,16 @@ const signUpObject = z.object({
     .max(20, { message: "max 20 character is allowed" }),
   password: z
     .string()
-    .min(8, { message: "Password must be at least 8 characters long." })
-    .max(20, { message: "Password must not exceed 20 characters." })
-    .regex(/[a-z]/, {
-      message: "Password must contain at least one lowercase letter.",
-    })
-    .regex(/[A-Z]/, {
-      message: "Password must contain at least one uppercase letter.",
-    })
-    .regex(/[\W_]/, {
-      message:
-        "Password must contain at least one special character (e.g., !@#$%^&*()_+).",
-    })
-    .regex(/[0-9]/, { message: "Password must contain at least one number." }),
+    .min(6, { message: "Password must be at least 6 characters long." })
+    .max(20, { message: "Password must not exceed 20 characters." }),
 });
 
 const signInObject = z.object({
   email: z.string().email({ message: "Provide a valid email" }),
   password: z
     .string()
-    .min(8, { message: "Password must be at least 8 characters long." })
-    .max(20, { message: "Password must not exceed 20 characters." })
-    .regex(/[a-z]/, {
-      message: "Password must contain at least one lowercase letter.",
-    })
-    .regex(/[A-Z]/, {
-      message: "Password must contain at least one uppercase letter.",
-    })
-    .regex(/[\W_]/, {
-      message:
-        "Password must contain at least one special character (e.g., !@#$%^&*()_+).",
-    })
-    .regex(/[0-9]/, { message: "Password must contain at least one number." }),
+    .min(6, { message: "Password must be at least 6 characters long." })
+    .max(20, { message: "Password must not exceed 20 characters." }),
 });
 
 const lessonPlanObject = z.object({

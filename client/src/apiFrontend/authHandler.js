@@ -2,13 +2,15 @@ import axios from "axios";
 
 // axios.defaults.baseURL = 'http://localhost:3004/api/v1'
 
-const axiosInstancess = axios.create({
-  baseURL: "http://localhost:3004/api/v1/user",
+const axiosAuth = axios.create({
+  baseURL: import.meta.env.VITE_API_URL
+    ? `${import.meta.env.VITE_API_URL}/user`
+    : "http://localhost:3004/api/v1/user",
   withCredentials: true,
 });
 const createUser = async ({ email, username, password }) => {
   try {
-    const response = await axiosInstancess.post("/signup", {
+    const response = await axiosAuth.post("/signup", {
       email,
       username,
       password,
@@ -23,7 +25,7 @@ const createUser = async ({ email, username, password }) => {
 };
 
 const logInUser = async ({ email, password }) => {
-  const response = await axiosInstancess.post("/signin", {
+  const response = await axiosAuth.post("/signin", {
     email,
     password,
   });
@@ -35,7 +37,7 @@ const logInUser = async ({ email, password }) => {
 
 const LogOutUser = async () => {
   try {
-    await axiosInstancess.get("/api/logOut", { withCredentials: true });
+    await axiosAuth.get("/api/logOut", { withCredentials: true });
   } catch (error) {
     console.log("logOut failed");
   }

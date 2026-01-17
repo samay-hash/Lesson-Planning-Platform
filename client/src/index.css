@@ -8,18 +8,21 @@
 }
 
 :root {
-    --bg-primary: #020617;
-    /* Slate 950 */
-    --text-primary: #F8FAFC;
-    /* Slate 50 */
+    --bg-primary: #F8FAFC; /* Slate 50 - Light Mode Default */
+    --text-primary: #0F172A; /* Slate 900 */
     --accent-cyan: #06b6d4;
     --accent-blue: #3b82f6;
+}
+
+.dark {
+    --bg-primary: #020617; /* Slate 950 - Dark Mode */
+    --text-primary: #F8FAFC; /* Slate 50 */
 }
 
 body {
     background-color: var(--bg-primary);
     color: var(--text-primary);
-    /* overflow-x: hidden; */
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 /* Scrollbar Styling */

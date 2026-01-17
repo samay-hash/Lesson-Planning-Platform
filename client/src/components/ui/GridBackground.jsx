@@ -17,23 +17,24 @@ const GridBackground = () => {
 
     return (
         <div className="fixed inset-0 z-0 pointer-events-none">
-            {/* Dark Background */}
-            <div className="absolute inset-0 bg-[#020617]"></div>
+            {/* Background Layer - handled by global CSS/Tailwind in App.jsx, but we confirm transparency here or match variables if needed */}
+            <div className="absolute inset-0 bg-slate-50 dark:bg-[#020617] transition-colors duration-300"></div>
 
             {/* Grid Pattern */}
             <div
-                className="absolute inset-0 opacity-[0.15]"
+                className="absolute inset-0 opacity-[0.10] dark:opacity-[0.15]"
                 style={{
-                    backgroundImage: `linear-gradient(#333 1px, transparent 1px), linear-gradient(90deg, #333 1px, transparent 1px)`,
-                    backgroundSize: '40px 40px'
+                    backgroundImage: `linear-gradient(currentColor 1px, transparent 1px), linear-gradient(90deg, currentColor 1px, transparent 1px)`,
+                    backgroundSize: '40px 40px',
+                    color: '#64748b' // Slate-500 for neutral grid
                 }}
             ></div>
 
-            {/* Mouse Spotlight (Yellowish Light) */}
+            {/* Mouse Spotlight */}
             <div
                 className="absolute inset-0 transition-opacity duration-300"
                 style={{
-                    background: `radial-gradient(600px circle at ${mousePosition.x}px ${mousePosition.y}px, rgba(255, 230, 0, 0.15), transparent 40%)`,
+                    background: `radial-gradient(600px circle at ${mousePosition.x}px ${mousePosition.y}px, rgba(6, 182, 212, 0.1), transparent 40%)`, // Cyan glow compatible with both
                 }}
             ></div>
         </div>

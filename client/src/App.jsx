@@ -12,35 +12,38 @@ import Dashboard from './pages/Dashboard'
 import { RecoilRoot } from 'recoil'
 import UserProfile from './pages/UserProfile'
 import ProtectedRoutes from './components/ProtectedRoutes'
+import { ThemeProvider } from './context/ThemeContext'
 import GridBackground from './components/ui/GridBackground'
 
 const App = () => {
   return (
-    <div className='font-fontOne min-h-screen relative text-slate-100 selection:bg-cyan-500 selection:text-white'>
-      <GridBackground />
-      <div className="relative z-10">
-        <RecoilRoot>
-          <BrowserRouter>
-            <Routes>
-              <Route path='/' element={<Layout />}>
-                <Route index element={<Home />} />
-                <Route path='/about' element={<About />} />
-                <Route path='/pricing' element={<Pricing />} />
-                <Route path='/Faq' element={<Faq />} />
-                <Route element={<ProtectedRoutes />}>
-                  <Route path='/dashboard' element={<Dashboard />} />
-                  <Route path='/user/profile' element={<UserProfile />} />
+    <ThemeProvider>
+      <div className='font-fontOne min-h-screen relative text-slate-900 dark:text-slate-100 bg-slate-50 dark:bg-[#020617] transition-colors duration-300 selection:bg-cyan-500 selection:text-white'>
+        <GridBackground />
+        <div className="relative z-10">
+          <RecoilRoot>
+            <BrowserRouter>
+              <Routes>
+                <Route path='/' element={<Layout />}>
+                  <Route index element={<Home />} />
+                  <Route path='/about' element={<About />} />
+                  <Route path='/pricing' element={<Pricing />} />
+                  <Route path='/Faq' element={<Faq />} />
+                  <Route element={<ProtectedRoutes />}>
+                    <Route path='/dashboard' element={<Dashboard />} />
+                    <Route path='/user/profile' element={<UserProfile />} />
+                  </Route>
                 </Route>
-              </Route>
-              {/* routes outside the layout thing  */}
-              <Route path='/auth/signin' element={<Authsignin />} />
-              <Route path='/auth/signup' element={<AuthSignup />} />
-              <Route path='*' element={<NoPage />} />
-            </Routes>
-          </BrowserRouter>
-        </RecoilRoot>
+                {/* routes outside the layout thing  */}
+                <Route path='/auth/signin' element={<Authsignin />} />
+                <Route path='/auth/signup' element={<AuthSignup />} />
+                <Route path='*' element={<NoPage />} />
+              </Routes>
+            </BrowserRouter>
+          </RecoilRoot>
+        </div>
       </div>
-    </div>
+    </ThemeProvider>
   )
 }
 

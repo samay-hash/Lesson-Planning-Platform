@@ -1,167 +1,136 @@
-// going to use officegen 
 const path = require('path')
-const officegen = require('officegen')
 const fs = require('fs')
-const { type } = require('os')
+const { Document, Packer, Paragraph, TextRun, Table, TableRow, TableCell, BorderStyle, WidthType } = require('docx')
 
+const createDocument = ({ subject, topic, grade, duration, overviewText, curricularText, factualsText, conceptualText, proceduralText, essentialQuestionText, teachingPointText, sequentialActivityText, formativeAssesmentText, gptQuestionText, summarizationhomeText }) => {
 
-const createDocument = ({subject, topic, grade, duration, overviewText, curricularText, factualsText, conceptualText, proceduralText,essentialQuestionText, teachingPointText, sequentialActivityText, formativeAssesmentText, gptQuestionText, summarizationhomeText}) => {
-    
-    let docx = officegen({
-        type: 'docx',
-        orientation : 'landscape',
-        title : 'LESSON PLAN'
-    })
-
-    let introTable = [
-        [{val : "Lesson Plan no :  ", opts: { 
-        }}
-        ],
-        [
-            {val : "Date : " ,},
-            ``,
-            {val : "Subject : "},
-            ` ${subject}`
-        ],
-        [
-            {val : "Class : "},
-            ` ${grade}`,
-            {val : `Chapter : `},
-            ` ${topic}`
-        ],
-        [
-            {val : 'Time : '},
-            ` ${duration}`,
-            {val : 'Period : '},
-            ``
-        ]
-    ]
-
-    let introTableStyle = {
-        tableColWidth: 4261,
-        tableSize : 12,
-        tableFontFamily: "Times New Roman",
-        tableAlign : "left",
-        borders : true
+    // Helper to create simple text paragraphs
+    const createPara = (text, bold = false, underline = false) => {
+        return new Paragraph({
+            children: [
+                new TextRun({
+                    text: text,
+                    bold: bold,
+                    underline: underline ? {} : undefined,
+                }),
+            ],
+            spacing: { after: 200 }
+        });
     }
 
-    docx.createTable(introTable, introTableStyle)
-    
+    // Helper to create a table row with simple text
+    const createRow = (cells) => {
+        return new TableRow({
+            children: cells.map(cellText => new TableCell({
+                children: [new Paragraph({ text: cellText || " " })],
+                width: {
+                    size: 100 / cells.length,
+                    type: WidthType.PERCENTAGE,
+                },
+                borders: {
+                    top: { style: BorderStyle.SINGLE, size: 1, color: "000000" },
+                    bottom: { style: BorderStyle.SINGLE, size: 1, color: "000000" },
+                    left: { style: BorderStyle.SINGLE, size: 1, color: "000000" },
+                    right: { style: BorderStyle.SINGLE, size: 1, color: "000000" },
+                },
+            }))
+        });
+    }
 
 
-    let overviewPara = docx.createP()
-    overviewPara.addLineBreak()
-    overviewPara.addText('Overview and Learning Objective', { bold: true, underline: true })
-    overviewPara.addLineBreak()
-    overviewPara.addText(overviewText)
-    overviewPara.addLineBreak()
+    const doc = new Document({
+        sections: [{
+            properties: {},
+            children: [
+                new Paragraph({
+                    text: "LESSON PLAN",
+                    heading: "Heading1",
+                    alignment: "center",
+                    spacing: { after: 300 }
+                }),
 
-    let curricularPara = docx.createP()
-    curricularPara.addText('Curricular Goals and Curricular competencies', { bold : true, underline : true})
-    curricularPara.addLineBreak()
-    curricularPara.addText(curricularText)
-    curricularPara.addLineBreak()*2
+                // Intro Table
+                new Table({
+                    rows: [
+                        createRow([`Lesson Plan no: `, ` `]),
+                        createRow([`Date: `, ` `, `Subject: ${subject}`]),
+                        createRow([`Class: ${grade}`, ` `, `Topic: ${topic}`]),
+                        createRow([`Time: ${duration}`, ` `, `Period: `]),
+                    ],
+                    width: {
+                        size: 100,
+                        type: WidthType.PERCENTAGE,
+                    },
+                }),
+
+                new Paragraph({ text: "" }), // Spacer
+
+                // Sections
+                createPara('Overview and Learning Objective', true, true),
+                createPara(overviewText || " "),
+
+                createPara('Curricular Goals and Curricular competencies', true, true),
+                createPara(curricularText || " "),
+
+                new Paragraph({ text: "" }), // Spacer
+
+                // Table One
+                new Table({
+                    rows: [
+                        createRow(['Learning Objective', 'Curricular competencies', 'FACTUAL KNOWLEDGE', 'CONCEPTUAL KNOWLEDGE', 'PROCEDURAL KNOWLEDGE']),
+                        createRow(['LO-1', 'CC-1', factualsText || " ", conceptualText || " ", proceduralText || " "]),
+                    ],
+                    width: {
+                        size: 100,
+                        type: WidthType.PERCENTAGE,
+                    }
+                }),
+
+                new Paragraph({ text: "" }), // Spacer
+
+                createPara('Essential question', true, true),
+                createPara(essentialQuestionText || " "),
+
+                new Paragraph({ text: "" }), // Spacer
+
+                // Presentation Table
+                new Table({
+                    rows: [
+                        createRow(['Teaching Points', 'Learning Outcomes', 'Sequential Learning Activities', 'Formative Assessment', 'Expected Queries']),
+                        createRow([teachingPointText || " ", 'LO1, LO2', sequentialActivityText || " ", formativeAssesmentText || " ", gptQuestionText || " "]),
+                    ],
+                    width: {
+                        size: 100,
+                        type: WidthType.PERCENTAGE,
+                    }
+                }),
+
+                new Paragraph({ text: "" }), // Spacer
+
+                createPara('Summarization And Home work :', true, true),
+                createPara(summarizationhomeText || " "),
+
+                new Paragraph({ text: "" }), // Spacer
+                createPara('Signature of Teacher ', true, true),
+            ],
+        }],
+    });
+
+    const dirPath = path.join(__dirname, '..', 'LessonPlansTemp');
+    if (!fs.existsSync(dirPath)) {
+        fs.mkdirSync(dirPath, { recursive: true });
+    }
+    const filePath = path.join(dirPath, `${topic}.docx`)
 
 
-    let tableOne = [
-        [
-            {val : 'Learning Objective', opts : { cellColWidth: 4261, } },
-            {val : 'Curricular competencies ', opts : { cellColWidth: 4261} },
-            {val : 'FACTUAL KNOWLEDGE', opts : { cellColWidth: 4261} },
-            {val : 'CONCEPTUAL KNOWLEDGE', opts : { cellColWidth: 4261} },
-            {val : 'PROCEDURAL KNOWLEDGE', opts : { cellColWidth: 4261} }
-        ],
-        [{val: 'LO-1'},  {val : 'CC-1 '},  { val : `${factualsText}`, }, { val : `${conceptualText}`, }, { val : `${proceduralText}`}  ]       
-    ]
-
-
-      docx.createTable(tableOne, introTableStyle)
-
-    
-      const essentialQuestion = docx.createP()
-      essentialQuestion.addLineBreak()
-      essentialQuestion.addText('Essential question', { bold : true, underline : true})
-      essentialQuestion.addLineBreak()
-      essentialQuestion.addText(essentialQuestionText)
-      essentialQuestion.addLineBreak()
-
-    let  presentationTable = [
-        [
-            {val : 'Teaching Points', opts : { cellColWidth: 4261, b: true,  fontFamily: "Arial" } },
-            {val : 'Learning Outcomes', opts : { cellColWidth: 4261, b: true,  fontFamily: "Arial" } },
-            {val : 'Sequential Learning Activities', opts : { cellColWidth: 4261, b: true,  fontFamily: "Arial" } },
-            {val : 'Formative Assessment', opts : { cellColWidth: 4261, b: true,  fontFamily: "Arial" } },
-            {val : 'Expected Queries', opts : { cellColWidth: 4261, b: true,  fontFamily: "Arial" } },  
-        ],
-        [{val: `${teachingPointText}`},{val: 'LO1, LO2'},{val : `${sequentialActivityText}`},{val : `${formativeAssesmentText}`},{val : `${gptQuestionText}`}],
-        [{val: `${teachingPointText}`},{val: 'LO1, LO2'},{val : `${sequentialActivityText}`},{val : `${formativeAssesmentText}`},{val : `${gptQuestionText}`}]
-    ]
-      
-    
-    docx.createTable(presentationTable, introTableStyle)
-
-    const summarizationandHomeWork = docx.createP()
-    summarizationandHomeWork.addLineBreak()
-    summarizationandHomeWork.addText('summarization And Home work : ', { bold: true, underline: true})
-    summarizationandHomeWork.addLineBreak()
-    summarizationandHomeWork.addText(`${summarizationhomeText}`)
-    summarizationandHomeWork.addLineBreak()
-
-    const teacherSignature = docx.createP()
-    teacherSignature.addText('Signature of Teacher ', {bold : true, underline : true})
-
-
-    const filePath = path.join(__dirname, '..', 'LessonPlansTemp', `${topic}.docx`)
-
-    let document = fs.createWriteStream(filePath)
-
-    return new Promise((resolve, reject) => {
-        document.on('finish', () => {
-            console.log('file created');
-            resolve(filePath)
-        })
-        document.on('error', (err) => {
-            console.log(err, 'error while creating docs');
-            reject(err)
-        })
-
-        docx.generate(document)
-    })
-
-    
-
-    
+    return Packer.toBuffer(doc).then((buffer) => {
+        fs.writeFileSync(filePath, buffer);
+        console.log("Document created successfully at " + filePath);
+        return filePath;
+    });
 }
 
 
 module.exports = {
     createDocument
 }
-
-
-
-
-/*
-        document.on is a function or something that listens to streams => path for data, incoming data or outgoing data ( creation of document etc) and 
-        so creating word document is outgoing  data => im taking data from my code and write it in file  when the stream is on the document.on fn listen to it and if error event happens its logs the error and when the finished means the doc is created => event listner is close here , the call back function runs and gives us the downloded thing 
-
-        more in my notion docs =>https://www.notion.so/Stream-node-js-12e3bf53d78c809e81fbc314705b22ae
-    */
-
-    // document.on('close', () => {
-    //     res.dowload(filePath,(err) => {
-    //         if(err) {
-    //             console.log(`error while sending the file ${err}`);
-    //             res.status(500).json({msg : 'error while downloading the file'})
-    //         } else {
-    //             fs.unlinkSync(filePath, (err) => {
-    //                 if(err) console.log(err);
-    //             })
-    //         }
-    //     } )
-    // })
-
-    // document.out('close', () => {
-    //     console.log('lesson Plan created Successfully ');
-        
-    // })

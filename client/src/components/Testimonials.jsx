@@ -21,12 +21,12 @@ const Testimonials = () => {
         <motion.div variants={testiAnimation} initial='initial' whileInView='inView'>
             <ul className='grid sm:grid-cols-5 sm:gap-10 gap-5 mt-10 px-5 '>
                 {
-                    testtis.map(testis => (
-                        <li key={testis.user} className='bg-white/5 backdrop-blur-md border border-white/10 p-8 rounded-xl hover:bg-white/10 transition-all duration-300'>
-                            <div className='text-[14px] text-slate-300'>"{testis.feedback}"</div>
+                    testtis.map((testis, index) => (
+                        <li key={index} className='bg-white dark:bg-white/5 backdrop-blur-md border border-slate-200 dark:border-white/10 p-8 rounded-xl hover:border-cyan-500/30 transition-all duration-300 shadow-lg dark:shadow-none'>
+                            <div className='text-[14px] text-slate-600 dark:text-slate-300'>"{testis.feedback}"</div>
                             <div className='flex justify-center items-center mt-5 gap-3'>
                                 <img src={testis.image} width={30} height={40} alt="" className='rounded-full border border-cyan-500/30' />
-                                <p className='text-xs text-cyan-400 font-semibold'>{testis.user}</p>
+                                <p className='text-xs text-cyan-600 dark:text-cyan-400 font-semibold'>{testis.user}</p>
                             </div>
                         </li>
                     ))

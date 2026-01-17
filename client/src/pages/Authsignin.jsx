@@ -76,12 +76,12 @@ const Authsignin = () => {
         variants={signinAnimation}
         className="relative z-10 w-full max-w-md p-8"
       >
-        <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-8 shadow-2xl shadow-black/50">
+        <div className="bg-white/5 backdrop-blur-xl border border-slate-200 dark:border-white/10 rounded-2xl p-8 shadow-2xl dark:shadow-black/50 bg-slate-50 dark:bg-transparent">
           <Link to="/" className="flex justify-center mb-6">
             <img src={logo} className="h-20 w-20 rounded-full border-2 border-cyan-500/50 shadow-lg shadow-cyan-500/20" alt="" />
           </Link>
-          <h1 className="text-3xl font-bold text-center text-slate-100 mb-2">Welcome Back</h1>
-          <p className="text-slate-400 text-center text-sm mb-8">Sign in to access your dashboard</p>
+          <h1 className="text-3xl font-bold text-center text-slate-800 dark:text-slate-100 mb-2">Welcome Back</h1>
+          <p className="text-slate-500 dark:text-slate-400 text-center text-sm mb-8">Sign in to access your dashboard</p>
 
           <form onSubmit={handleSubmit} className="space-y-6">
             <Input
