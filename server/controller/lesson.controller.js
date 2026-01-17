@@ -25,7 +25,7 @@ const createPlan = async (req, res) => {
   try {
     // Initialize Gemini
     const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || "mock_key");
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+    const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash-lite" });
 
     let lessonData;
     let rawContent;
@@ -53,7 +53,7 @@ const createPlan = async (req, res) => {
 
       // MOCK DATA FALLBACK
       lessonData = {
-        overview: `(DEMO MODE - AI KEY INVALID) This is a sample lesson plan for ${topic}. The AI generation failed due to a missing or invalid API Key, so we are providing this template to demonstrate the file generation capabilities.`,
+        overview: `(DEMO MODE - AI KEY INVALID) This is a sample lesson plan for ${topic}. The AI generation failed due to exipire qouta of API Key, so we are providing this template to demonstrate the file generation capabilities.`,
         curricularGoals: ["Understand the core concepts of the topic.", "Apply knowledge to real-world scenarios."],
         curricularCompetencies: ["Critical thinking analysis.", "Collaborative problem solving.", "Information synthesis."],
         factualKnowledge: ["Key Fact 1: The foundation of the topic.", "Key Fact 2: Historical context.", "Key Fact 3: Modern application."],
@@ -103,17 +103,17 @@ const createPlan = async (req, res) => {
       creatorId: userId,
     });
 
-    res.download(docFile, `${topic}.docx`, (err) => {
-      if (err) {
-        console.log(`Error sending file: ${err}`);
-        if (!res.headersSent) {
-          res.status(500).json({ msg: "Error downloading file." });
-        }
-      } else {
-        fs.unlink(docFile, (err) => {
-          if (err) console.error(`Error deleting file: ${err}`);
-        });
-      }
+    const docxBase64 = fs.readFileSync(docFile).toString("base64");
+
+    fs.unlink(docFile, (err) => {
+      if (err) console.error(`Error deleting file: ${err}`);
+    });
+
+    res.status(200).json({
+      success: true,
+      lessonPlan: lessonData,
+      docxFile: docxBase64,
+      filename: `${topic}.docx`,
     });
   } catch (error) {
     console.log(`lesson plan error: ${error}`);

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useRecoilState, useSetRecoilState } from 'recoil'
 import { usernameState, lessonPlanForm } from '../recoil/createUser.recoil'
 import Input from '../components/Input'
@@ -11,6 +12,7 @@ const Dashboard = () => {
   const [username, setUsername] = useRecoilState(usernameState)
   const [lpFrom, setlpFrom] = useState(false)
   const [lessonPlanData, setLessonPlanData] = useRecoilState(lessonPlanForm)
+  const navigate = useNavigate()
 
   useEffect(() => {
     const user = localStorage.getItem('username')
@@ -39,24 +41,21 @@ const Dashboard = () => {
     try {
       const response = await genereatePlan(lessonPlanData);
 
-      if (response?.data) {
-        // Create a blob from the response data
-        const blob = new Blob([response.data], { type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' });
-        const downloadUrl = URL.createObjectURL(blob);
-
-        // Create an anchor element and trigger the download
-        const link = document.createElement('a');
-        link.href = downloadUrl;
-        link.download = `${lessonPlanData.topic}.docx`;  // Set a filename for the download
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-
-        // Revoke the object URL to free up memory
-        URL.revokeObjectURL(downloadUrl);
-
+      if (response?.data?.success) {
         setLessonPlanData({ subject: '', topic: '', grade: '', duration: '' })
         setlpFrom(false)
+
+        navigate('/lesson-result', {
+          state: {
+            lessonPlan: response.data.lessonPlan,
+            docxFile: response.data.docxFile, // Base64 string
+            filename: response.data.filename,
+            subject: lessonPlanData.subject,
+            topic: lessonPlanData.topic,
+            grade: lessonPlanData.grade,
+            duration: lessonPlanData.duration
+          }
+        });
       }
     } catch (error) {
       console.log('Error downloading file:', error);

@@ -114,7 +114,7 @@ Under **"Environment Variables"**, add:
 
 | Key | Value |
 |-----|-------|
-| `VITE_API_URL` | `https://lesson-planning-backend.onrender.com` (your Render URL) |
+| `VITE_API_URL` | `https://lesson-planning-backend.onrender.com/api/v1` (ensure /api/v1 is included) |
 
 ### 3.4 Deploy
 
@@ -215,3 +215,6 @@ If you encounter any issues:
 1. Check Render logs (Dashboard → Your Service → Logs)
 2. Check Vercel logs (Dashboard → Your Project → Deployments → View Function Logs)
 3. Verify all environment variables are set correctly
+
+
+create a full animation type read me so that anyone can get my repo and install the dependensies and also tell the problem and wht my project give soltion to them and wht tech stack usees make this in animated type

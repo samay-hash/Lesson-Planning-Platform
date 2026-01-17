@@ -3,9 +3,7 @@ import axios from "axios";
 // axios.defaults.baseURL = 'http://localhost:3004/api/v1'
 
 const axiosAuth = axios.create({
-  baseURL: import.meta.env.VITE_API_URL
-    ? `${import.meta.env.VITE_API_URL}/user`
-    : "http://localhost:3004/api/v1/user",
+  baseURL: `${import.meta.env.VITE_API_URL || "http://localhost:3004/api/v1"}/user`,
   withCredentials: true,
 });
 const createUser = async ({ email, username, password }) => {
