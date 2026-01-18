@@ -12,11 +12,11 @@
 
 <br />
 
-<p align="center">
+<!-- <p align="center">
   <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExbmNkdXQ5Y3JueGV6aXl6aXl6aXl6aXl6aXl6aXl6aXl6/xT9IgzoKnwFNmISR8I/giphy.gif" alt="AI Animation" width="600">
   <br>
   <em>Turn hours of planning into seconds of creativity.</em>
-</p>
+</p> -->
 
 </div>
 
